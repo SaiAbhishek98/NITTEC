@@ -1,0 +1,93 @@
+
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<title>{% block title %}Activities/Communication Log{% endblock %}</title>
+    {% load staticfiles %} -->
+    <link rel="shortcut icon" type="image/png" href="{%  static '' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type = "text/javascript" src="{% static 'ActComLog/js/scripts.js' %}"></script>
+
+    <script>
+        function renderTime(){
+    var dayarray = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    var montharray = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+    var today = new Date();
+    var temp = 'AM';
+    if(today.getHours()>12){
+    hour = today.getHours() - 12;
+        temp = 'PM';
+    }
+    else{
+    hour = today.getHours();
+       temp = 'AM';
+    }
+    var myClock = document.getElementById("clockDisplay");
+    myClock.textContent = " " +dayarray[today.getDay()]+ ", "+montharray[today.getMonth()]+ " " +today.getDate()+ ", "+today.getFullYear()+"  "+hour+":"+today.getMinutes()+":"+today.getSeconds()+" "+temp;
+    myClock.innerText = " " +dayarry[mydate.getDay()]+ ", "+montharray[today.getMonth()]+ " " +today.getDate()+", "+today.getFullYear()+"  "+hour+":"+today.getMinutes()+":"+today.getSeconds()+" "+temp ;
+    setTimeout("renderTime()", 1000);
+}
+    </script>
+</head>
+<body onload="renderTime();">
+    <div class="text-center">
+        <img src="{% static 'ActComLog/images/nittec.jpg' %}" class="img-thumbnail" alt="Cinque Terre"/>
+        <h4><u><b><i>NITTEC Operation Center</i></b></u></h4>
+        <div id="clockDisplay" class="container"></div>
+        <h4>Activities/Communication Log V12.4</h4>
+    </div>
+
+    <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar">Incident/Congestion</span>
+                <span class="icon-bar">Border Crossing Delays</span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+
+        <!-- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+                <li><a href="#"><span aria-hidden="true"></span>&nbsp; Active Events</a></li>
+                <li><a href="#"><span aria-hidden="true"></span>&nbsp; Snow/Ice Board</a></li>
+                <li><a href="#"><span aria-hidden="true"></span>&nbsp; PVMS Board</a></li>
+                <li><a href="#"><span aria-hidden="true"></span>&nbsp; Unlock Locked Logs</a></li>
+                <li><a href="#"><span aria-hidden="true"></span>&nbsp; Reports</a></li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+    <div class="text-center">
+
+        <form action="{% url 'ActComLog:submit_data' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="ddm">Day To Day Message</label><br>
+                <textarea id="ddmta" rows="10" cols="100" name="day_message"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ltm">Long Term Message</label><br>
+                <textarea id="ltmta" rows="10" cols="100" name="long_message"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="dtr">Dates to Remember</label><br>
+                <textarea id="dtrta" rows="10" cols="100" name="dates_to_remember"></textarea>
+            </div>
+            <button type="submit" value="Continue" class="btn btn-default">Continue</button>
+        </form>
+
+    </div>
+</body>
+
+</html>
